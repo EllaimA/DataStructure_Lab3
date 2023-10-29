@@ -13,7 +13,9 @@ def resolveTie(stringA, stringB):
         return (stringA, stringB)
     elif len(stringB) < len(stringA):
         return (stringB, stringA)
+    # Order string of same length alphabetically
     else:
-    #resolve ties by multiple letter groups
-        # return 1 for test
-        return 1
+        if stringA.lower() < stringB.lower():
+            return (stringA, stringB)
+        else:
+            return (stringB, stringA)
