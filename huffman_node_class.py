@@ -5,5 +5,5 @@ class HuffmanNode():
         self.right = right
         self.root = root    
     def children(self):
-        return((self.left, self.right))    # method that returns both children of the node
+        return self.left, self.right    # method that returns both children of the node
 
