@@ -2,19 +2,28 @@ import string
 
 # Huffman Node class, with two children per node
 class HuffmanNode():
-    def __init__(self, left=None, right=None, root=None, frequency=None):
+    def __init__(self, freq, data=None, left=None, right=None, is_intermediate_node=False):
         self.left = left
         self.right = right
-        self.root = root
-        self.frequency = frequency
+        self.data = data
+        self.freq = freq
+        self.is_intermediate_node = is_intermediate_node
+
     def children(self):
         return self.left, self.right    # method that returns both children of the node
+    
+    def __lt__(self, other):
+        freq_comp = self.freq < other.freq 
+        if self.data and other.data:
+            return freq_comp or self.data < other.data
+        return freq_comp
 
+    def __str__(self) -> str:
+        return f'{self.data}: {self.freq} '
 # Create a alphabet list
 alphabet = list(string.ascii_lowercase)
 
-# Resolve ties by giving single-letter precedence over letter groups
-  then alphabetically
+# Resolve ties by giving single-letter precedence over letter groups then alphabetically
 # Pass in two strings needs to be compared
 def resolveTie(stringA, stringB):
     # Check which string is shorter, return two strings as a tuple so the shorter
