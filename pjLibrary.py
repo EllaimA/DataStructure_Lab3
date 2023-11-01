@@ -13,13 +13,14 @@ class HuffmanNode():
         return self.left, self.right    # method that returns both children of the node
     
     def __lt__(self, other):
-        freq_comp = self.freq < other.freq 
-        if self.data and other.data:
-            return freq_comp or self.data < other.data
+        freq_comp = self.freq < other.freq
+        if self.freq == other.freq and self.data and other.data:
+            return self.data < other.data
         return freq_comp
 
     def __str__(self) -> str:
         return f'{self.data}: {self.freq} '
+
 # Create a alphabet list
 alphabet = list(string.ascii_lowercase)
 
