@@ -1,6 +1,7 @@
 from pjLibrary import HuffmanNode
 from collections import defaultdict
 from priority_queue import PriorityQueue
+import time 
 
 
 def build_frequecny_dict(input_file):
