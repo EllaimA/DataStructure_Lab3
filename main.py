@@ -1,103 +1,77 @@
-from pjLibrary import HuffmanNode
-from collections import defaultdict
-from priority_queue import PriorityQueue
+# Import functions
+from pjLibrary import user_handler
+from pjLibrary import input_file_handler
+from pjLibrary import output_file_handler
+from pjLibrary import build_huffman_tree
+from pjLibrary import print_huffman_tree
+from pjLibrary import encode
+from pjLibrary import decode
+import os
 
+def main():
+    # Get the current working directory.
+    working_dir = str(os.getcwd())
 
-def build_frequecny_dict(input_file):
-    """Build a frequency dictionary from an input file.
+    # Define the default output and input directories.
+    def_output_dir = working_dir + '\\Output_Files'
+    def_input_dir = working_dir + '\\Input_Files'
 
-    Args:
-        input_file (str): The path to the input file.
+    # Aggregate the default directories into a list.
+    all_default_dir = [def_input_dir, def_output_dir]
 
-    Returns:
-        defaultdict: A dictionary with character frequencies.
-    """
-    # Initialize a dictionary with default values of 0 for character frequencies
-    freq_dict = defaultdict(int)
-    
-    # Open the input file
-    with open(input_file) as f:
-        # Iterate through each line in the file
-        for line in f.readlines():
-            # Iterate through each character in the line
-            for c in line:
-                # Check if the character is alphanumeric
-                if c.isalnum():
-                    # Update the frequency of the character (convert to lowercase)
-                    freq_dict[c.lower()] += 1
+    # Handle user input for input and output directories.
+    input_output_dir = user_handler(all_default_dir)
 
-    # Return the frequency dictionary
-    return freq_dict
+    # Assign directories for input and output folders.
+    input_folder_dir = input_output_dir[0]
+    output_folder_dir = input_output_dir[1]
 
+    # Makes new Output folder if it does not exist
+    if not os.path.exists(output_folder_dir):
+        os.mkdir(output_folder_dir)
 
-def build_huffman_tree(input_file=None, freq_dict=None):
-    """Build a Huffman tree.
+    # List all files in the input directory.
+    input_files = os.listdir(input_output_dir[0])
 
-    Args:
-        input_file (str, optional): The path to the input file.
-        freq_dict (dict, optional): A precomputed frequency dictionary.
+    # Process the input files to get the character frequencies, strings to encode, and binaries to decode.
+    text_freq_dict, encode_list, decode_list = input_file_handler(input_files, input_folder_dir)
 
-    Returns:
-        HuffmanNode: The root node of the Huffman tree.
-    """
+    # Initialize lists and dictionaries for storing output data.
+    character_code_tuple_list = []
+    pre_order_frequency_tuple_list = []
+    decoded_dict = {}
+    encoded_dict = {}
 
-    # If a frequency dictionary is not provided, build one from the input file
-    if freq_dict is None and input_file:
-        freq_dict = build_frequecny_dict(input_file)
+    # Define the output files directory paths.
+    all_output_files_dir = [output_folder_dir + '\\Character_Code.txt', output_folder_dir + '\\Preorder.txt',
+                            output_folder_dir + '\\Decoded_Strings.txt', output_folder_dir + '\\Encoded_Binary.txt']
 
-    # Create a priority queue for Huffman nodes
-    pq = PriorityQueue()
+    # Generate and store the Huffman tree character codes.
+    character_code_tuple_list = print_huffman_tree(build_huffman_tree(freq_dict=text_freq_dict),
+                                                   character_code_tuple_list)
 
-    # Iterate through the characters and frequencies in the dictionary
-    for data, freq in freq_dict.items():
-        # Create a Huffman node for each character and frequency
-        node = HuffmanNode(freq, data)
-        # Push the node onto the priority queue
-        pq.push(node)
-    
-    # Continue until there is only one node left in the priority queue
-    while pq.size() > 1:
-        # Pop the two nodes with the lowest frequencies
-        left = pq.pop()
-        right = pq.pop()
+    # Generate and store the preorder traversal of the Huffman tree with frequencies.
+    pre_order_frequency_tuple_list = print_huffman_tree(build_huffman_tree(freq_dict=text_freq_dict),
+                                                        pre_order_frequency_tuple_list,
+                                                        print_tree=True)
 
-        # Create a new node that combines the two nodes
-        new_node = HuffmanNode(left.freq + right.freq, left.data + right.data, left=left, right=right, is_intermediate_node=True)
+    # Decode the binary strings using the Huffman tree and store the results.
+    for decode_binary in decode_list:
+        root_node = build_huffman_tree(freq_dict=text_freq_dict)
+        decoded_string = decode(root_node, decode_binary)
+        decoded_dict[decode_binary] = decoded_string
 
-        # Add the new node back to the priority queue
-        pq.push(new_node)
+    # Encode the strings using the Huffman codes and store the results.
+    for encode_string in encode_list:
+        encoded_binary = encode(encode_string, character_code_tuple_list)
+        encoded_dict[encode_string] = encoded_binary
 
-    # Return the root node of the Huffman tree
-    return pq.pop()
+    # Compile all output data into a list.
+    all_output_data = [character_code_tuple_list, pre_order_frequency_tuple_list, decoded_dict, encoded_dict]
 
-
-def print_huffman_tree(node, code='', print_tree=False):
-    """Print the Huffman tree or encode characters with Huffman codes.
-
-    Args:
-        node (HuffmanNode): The current node in the Huffman tree.
-        code (str, optional): The Huffman code generated during traversal.
-        print_tree (bool, optional): If True, print the tree structure; if False, print Huffman codes.
-    """
-
-    # Print the tree with in-order traversal
-    if node:
-        if node.data is not None:
-            if print_tree:
-                # Print character and frequency information
-                print(f'{node.data}: {node.freq} ')
-            else:
-                if not node.is_intermediate_node:
-                    # Print character and its Huffman code
-                    print(f'{node.data} = {code}')
-        
-        # Traverse the left and right subtrees with updated codes
-        print_huffman_tree(node.left, code + '0', print_tree=print_tree)
-        print_huffman_tree(node.right, code + '1', print_tree=print_tree)
+    # Write the output data to their respective files.
+    output_file_handler(all_output_files_dir, all_output_data)
 
 
 if __name__ == '__main__':
-    # simple test case
-    text_freq_dict = {"X":3, "Y": 1, "Z": 2}
-    print_huffman_tree(build_huffman_tree(freq_dict=text_freq_dict))
-    print_huffman_tree(build_huffman_tree(freq_dict=text_freq_dict), print_tree=True)
+    main()
