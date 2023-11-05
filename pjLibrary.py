@@ -6,12 +6,12 @@ from queue import PriorityQueue
 
 # Huffman Node class, with two children per node
 class HuffmanNode():
-    def __init__(self, freq, data=None, left=None, right=None, is_intermediate_node=False):
+    def __init__(self, freq, data=None, left=None, right=None, is_internal_node=False):
         self.left = left
         self.right = right
         self.data = data
         self.freq = freq
-        self.is_intermediate_node = is_intermediate_node
+        self.is_internal_node = is_internal_node
 
     # method that returns both children of the node
     def children(self):
@@ -206,7 +206,7 @@ def build_huffman_tree(input_file=None, freq_dict=None):
 
         # Create a new node that combines the two nodes
         new_node = HuffmanNode(left.freq + right.freq, left.data + right.data, left=left, right=right,
-                               is_intermediate_node=True)
+                               is_internal_node=True)
 
         # Add the new node back to the priority queue
         pq.put(new_node)
@@ -232,7 +232,7 @@ def print_huffman_tree(node, freq_code_tuple_list, code='', print_tree=False):
                 #print(f'{node.data}: {node.freq} ')
                 freq_code_tuple_list.append((node.data, node.freq))
             else:
-                if not node.is_intermediate_node:
+                if not node.is_internal_node:
                     # Print character and its Huffman code
                     #print(f'{node.data} = {code}')
                     freq_code_tuple_list.append((node.data, code))
@@ -278,7 +278,7 @@ def decode(root, decode_binary):
         else:
             current_node = current_node.right
         # Check if the current node is a leaf node.
-        if not current_node.is_intermediate_node:
+        if not current_node.is_internal_node:
             # If it's a leaf node, add the character to the output string.
             decoded_output += current_node.data
             # Reset to the root node for the next character.
