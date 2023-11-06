@@ -6,26 +6,69 @@ from priority_queue import PriorityQueue
 import time
 
 # Huffman Node class, with two children per node
-class HuffmanNode():
+class HuffmanNode:
+    """
+    Represents a node in a Huffman tree.
+
+    Attributes:
+        data: The character or data associated with the node.
+        left: The left child node.
+        right: The right child node.
+        freq: The frequency of the character or data.
+        is_internal_node: Indicates whether the node is an internal node (has no character).
+    """
+
     def __init__(self, freq, data=None, left=None, right=None, is_internal_node=False):
+        """
+        Initializes a HuffmanNode.
+
+        Args:
+            freq: The frequency of the character or data.
+            data: The character or data associated with the node.
+            left: The left child node.
+            right: The right child node.
+            is_internal_node: Indicates whether the node is an internal node (has no character).
+        """
         self.left = left
         self.right = right
         self.data = data
         self.freq = freq
         self.is_internal_node = is_internal_node
 
-    # method that returns both children of the node
     def children(self):
+        """
+        Returns both children of the node.
+
+        Returns:
+            A tuple containing the left and right child nodes.
+        """
         return self.left, self.right
 
     def __lt__(self, other):
+        """
+        Compares two HuffmanNodes based on frequency and data. 
+
+        Args:
+            other: Another HuffmanNode to compare.
+
+        Returns:
+            True if the current node is less than the other node based on frequency and data, otherwise False.
+        """
+        # Current implementation gives the single letter groups precedence over multiple letter groups, then alphabetically
         freq_comp = self.freq < other.freq
         if self.freq == other.freq and self.data and other.data:
             return self.data < other.data
         return freq_comp
 
     def __str__(self) -> str:
-        return f'{self.data}: {self.freq} '
+        """
+        Returns a string representation of the node.
+
+        Returns:
+            A string containing the character or data, followed by its frequency.
+        """
+        return f'{self.data}: {self.freq}'
+
 
 # Create an alphabet list
 alphabet = list(string.ascii_lowercase)
