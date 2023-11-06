@@ -7,6 +7,7 @@ from pjLibrary import print_huffman_tree
 from pjLibrary import encode
 from pjLibrary import decode
 import os
+import time 
 
 def main():
     # Get the current working directory.
