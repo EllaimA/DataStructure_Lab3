@@ -1,11 +1,6 @@
 # Import functions
-from pjLibrary import user_handler
-from pjLibrary import input_file_handler
-from pjLibrary import output_file_handler
-from pjLibrary import build_huffman_tree
-from pjLibrary import print_huffman_tree
-from pjLibrary import encode
-from pjLibrary import decode
+from pjLibrary import user_handler, input_file_handler, output_file_handler, build_huffman_tree, print_huffman_tree, encode, decode
+
 import os
 import time 
 

@@ -2,7 +2,8 @@ import string
 import os
 import re
 from collections import defaultdict
-from queue import PriorityQueue
+from priority_queue import PriorityQueue
+import time
 
 # Huffman Node class, with two children per node
 class HuffmanNode():
@@ -201,20 +202,20 @@ def build_huffman_tree(input_file=None, freq_dict=None):
         # Create a Huffman node for each character and frequency
         node = HuffmanNode(freq, data)
         # Push the node onto the priority queue
-        pq.put(node)
+        pq.push(node)
 
     # Continue until there is only one node left in the priority queue
     while pq.qsize() > 1:
         # Pop the two nodes with the lowest frequencies
-        left = pq.get()
-        right = pq.get()
+        left = pq.pop()
+        right = pq.pop()
 
         # Create a new node that combines the two nodes
         new_node = HuffmanNode(left.freq + right.freq, left.data + right.data, left=left, right=right,
                                is_internal_node=True)
 
         # Add the new node back to the priority queue
-        pq.put(new_node)
+        pq.pop(new_node)
 
     end_time = time.process_time()    # end CPU clock
     total_time = end_time - start_time  # total elapsed CPU time for function execution
