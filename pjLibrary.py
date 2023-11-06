@@ -160,6 +160,7 @@ def build_frequency_dict(input_file):
 
     # Open the input file
     with open(input_file) as f:
+        start_time = time.process_time() # start CPU clock for time complexity analysis 
         # Iterate through each line in the file
         for line in f.readlines():
             # Iterate through each character in the line
@@ -168,6 +169,9 @@ def build_frequency_dict(input_file):
                 if c.isalnum():
                     # Update the frequency of the character (convert to lowercase)
                     freq_dict[c.lower()] += 1
+        end_time = time.process_time()    # end CPU clock
+        total_time = end_time - start_time  # total elapsed CPU time for function execution
+        print(f"Build Frequency Dictionary CPU Time: {total_time}")
 
     # Return the frequency dictionary
     print(freq_dict)
@@ -183,7 +187,8 @@ def build_huffman_tree(input_file=None, freq_dict=None):
     Returns:
         HuffmanNode: The root node of the Huffman tree.
     """
-
+    start_time = time.process_time()   # start cpu clock for time complexity analysis
+    
     # If a frequency dictionary is not provided, build one from the input file
     if freq_dict is None and input_file:
         freq_dict = build_frequency_dict(input_file)
@@ -211,8 +216,12 @@ def build_huffman_tree(input_file=None, freq_dict=None):
         # Add the new node back to the priority queue
         pq.put(new_node)
 
+    end_time = time.process_time()    # end CPU clock
+    total_time = end_time - start_time  # total elapsed CPU time for function execution
+    print(f"Build Huffman Tree CPU Time: {total_time}")
+    
     # Return the root node of the Huffman tree
-    return pq.get()
+    return pq.pop()
 
 
 def print_huffman_tree(node, freq_code_tuple_list, code='', print_tree=False):
@@ -223,7 +232,8 @@ def print_huffman_tree(node, freq_code_tuple_list, code='', print_tree=False):
         code (str, optional): The Huffman code generated during traversal.
         print_tree (bool, optional): If True, print the tree structure; if False, print Huffman codes.
     """
-
+    start_time = time.process_time()   # Start CPU clock for time complexity analysis
+    
     # Print the tree with in-order traversal
     if node:
         if node.data is not None:
@@ -241,6 +251,10 @@ def print_huffman_tree(node, freq_code_tuple_list, code='', print_tree=False):
         print_huffman_tree(node.left, freq_code_tuple_list, code + '0', print_tree=print_tree)
         print_huffman_tree(node.right, freq_code_tuple_list, code + '1', print_tree=print_tree)
         return freq_code_tuple_list
+        
+    end_time = time.process_time()    # end CPU clock
+    total_time = end_time - start_time  # total elapsed CPU time for function execution
+    print(f"Print Huffman Tree CPU Time: {total_time}")
 
 
 # Encode the string using Huffman codes
