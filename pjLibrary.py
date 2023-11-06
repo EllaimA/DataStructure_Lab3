@@ -205,7 +205,7 @@ def build_huffman_tree(input_file=None, freq_dict=None):
         pq.push(node)
 
     # Continue until there is only one node left in the priority queue
-    while pq.qsize() > 1:
+    while pq.size() > 1:
         # Pop the two nodes with the lowest frequencies
         left = pq.pop()
         right = pq.pop()
@@ -215,7 +215,7 @@ def build_huffman_tree(input_file=None, freq_dict=None):
                                is_internal_node=True)
 
         # Add the new node back to the priority queue
-        pq.pop(new_node)
+        pq.push(new_node)
 
     end_time = time.process_time()    # end CPU clock
     total_time = end_time - start_time  # total elapsed CPU time for function execution
