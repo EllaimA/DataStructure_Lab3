@@ -18,6 +18,6 @@ If the Decode_Input file is missing, the program will generate an empty Decoded_
 
 If the Encode_Input file is missing, the program will generate an empty Encoded_Binary file.
 
-If the Frequency_List file is missing, the program will generate a frequency list based on the input string first, then parse the input files.
+If the Frequency_List file is missing, the program will generate a frequency list based on the input string first, then parse input files.
 
 Notice: Currently, the output directory contains output files we generated. To see the generation process, please delete files in the output directory first, then run the program. 
