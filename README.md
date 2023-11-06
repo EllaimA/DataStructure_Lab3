@@ -20,4 +20,5 @@ If the Encode_Input file is missing, the program will generate an empty Encoded_
 
 If the Frequency_List file is missing, the program will generate a frequency list based on the input string first, then parse input files.
 
-Notice: Currently, the output directory contains output files we generated. To see the generation process, please delete files in the output directory first, then run the program. 
+Notice 1: Currently, the output directory contains output files we generated. To see the generation process, please delete files in the output directory first, then run the program. 
+Notice 2: Our resolve tie is integrated in HuffmanNode class: __lt__(self, other): and PriorityQueue:sorted
