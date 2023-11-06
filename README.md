@@ -10,7 +10,7 @@ Aurora Meng, Marc Roube, Koushik Parakulam, Dongyang Liu
 ### How to run the code
 run `python main.py`
 
-The Input_Files contains default input documents(a decode input file, a encode input file and the frequency list). When run, main.py will ask for input and output directory, if not provided, the default I/O directory will be used.
+The Input_Files contains default input documents(a decode input file, a encode input file and the frequency list). When run, main.py will ask for an input and output directory, if not provided, the default I/O directory will be used.
 
 The program will automatically recognize input files from the input directory and process them accordingly, generating output files in the output directory.
 
