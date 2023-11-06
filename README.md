@@ -15,7 +15,9 @@ The Input_Files contains default input documents(a decode input file, a encode i
 The program will automatically recognize input files from the input directory and process them accordingly, generating output files in the output directory.
 
 If the Decode_Input file is missing, the program will generate an empty Decoded_Strings file.
+
 If the Encode_Input file is missing, the program will generate an empty Encoded_Binary file.
+
 If the Frequency_List file is missing, the program will generate a frequency list based on the input string first, then parse the input files.
 
 Notice: Currently, the output directory contains output files we generated. To see the generation process, please delete files in the output directory first, then run the program. 
